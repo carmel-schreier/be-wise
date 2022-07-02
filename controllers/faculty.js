@@ -7,6 +7,7 @@ module.exports = {
 
         try {
             const result = await database.query(sql);
+            res.set('Access-Control-Allow-Origin', '*');
             res.status(200).json(rows);
         } catch (err) {
             console.log(err);
