@@ -1,6 +1,5 @@
 To run:
-
-SET DEBUG=be-wise:\*& npm start
+SET DEBUG=be-wise:*& npm start
 
 Go to:
 http://localhost:4200/lecturers-component
