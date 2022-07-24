@@ -7,7 +7,28 @@ export interface Lecturer {
   country_code: string;
   country_name: string;
 }
+export interface Courses {
+  code: string;
+  name: string;
+  description: string;
+  price: number;
+  lessons_numb: number;
+  open_date: Date;
+  category: string;
+  lecturer: string;
+}
+
+export interface Categories {
+  category: string;
+}
 
 export interface FilePath {
-  path: Lecturer;
+  path: Courses;
+}
+
+export type sortColumn = 'name' | 'price';
+
+export interface CoursesSort {
+  column: sortColumn;
+  dirAsc: boolean;
 }

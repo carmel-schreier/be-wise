@@ -1,7 +1,7 @@
 const database = require("./database");
 
 module.exports = {
-    getFacultyDetails: async function (req, res, next) {
+    getLecturersDetails: async function (req, res, next) {
         const sql =
             "SELECT * FROM faculty;";
 
