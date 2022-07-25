@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { ApiService } from 'src/app/core/api.service';
 import {
   Categories,
@@ -13,22 +13,19 @@ import {
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.sass'],
 })
-export class CoursesComponent implements OnInit {
+export class CoursesComponent implements OnInit, AfterViewInit {
   courses!: Array<Courses>;
-  showDetails = false;
+  //showDetails = false;
   theCourse!: Courses;
   categories!: Array<Categories>;
   selectedCategory = 'All';
   tableSort!: CoursesSort;
+  courseIndex!: number;
+  active = true;
+  expandIcon = `bi-plus-square`;
+  theButton!: any;
 
-  //getCategories(): Array<string> {
-  //  for (let i = 0; i < this.courses.length; i++) {
-  //    this.categories.push(this.courses[i].category);
-  //  }
-  //  return this.categories;
-  //}
-
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private renderer: Renderer2) {}
 
   ngOnInit(): void {
     this.getAllCourses();
@@ -38,6 +35,8 @@ export class CoursesComponent implements OnInit {
       dirAsc: true,
     };
   }
+
+  ngAfterViewInit(): void {}
 
   getAllCourses() {
     this.apiService.getCoursesList().subscribe({
@@ -69,7 +68,6 @@ export class CoursesComponent implements OnInit {
     });
   }
 
-  //
   getCategoriesList() {
     this.apiService.getCategories().subscribe({
       next: (data: Array<Categories>) => {
@@ -83,14 +81,6 @@ export class CoursesComponent implements OnInit {
         console.log('complete');
       },
     });
-  }
-
-  showCourseDetails(i: number) {
-    console.log('i was clicked' + `${i}`);
-    this.theCourse = this.courses[i];
-    this.showDetails = !this.showDetails;
-    //this.icon = this.showDetails ? 'bi-plus-square' : 'bi-dash-square';
-    return;
   }
 
   filterByCategory() {
@@ -111,9 +101,6 @@ export class CoursesComponent implements OnInit {
       },
     });
   }
-  //sortCourses(culomb: string) {}
-
-  //displaySort(culomb: string) {}
 
   sortCourses(column: sortColumn) {
     console.log(column);
@@ -139,5 +126,26 @@ export class CoursesComponent implements OnInit {
       return this.tableSort.dirAsc ? 'bi-chevron-up' : 'bi-chevron-down';
     }
     return 'bi-chevron-expand';
+  }
+
+  showCourseDetails(i: number) {
+    console.log('i was clicked' + `${i}`);
+    this.theCourse = this.courses[i];
+    console.log(this.theCourse);
+    this.courseIndex = i;
+    this.active = false;
+    console.log(this.theButton);
+    let code = this.courses[i].code;
+    this.theButton = this.renderer.selectRootElement(`.${code}`);
+    this.renderer.removeClass(this.theButton, `bi-plus-square`);
+    this.renderer.addClass(this.theButton, `bi-dash-square`);
+  }
+  closeCourseDetails(i: number) {
+    if (i == this.courseIndex) {
+      this.courseIndex = -1;
+      this.renderer.removeClass(this.theButton, `bi-dash-square`);
+      this.renderer.addClass(this.theButton, `bi-plus-square`);
+      this.active = true;
+    }
   }
 }
