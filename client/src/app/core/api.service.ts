@@ -46,7 +46,9 @@ export class ApiService {
     );
   }
 
-  exportCourses(): Observable<FilePath> {
-    return this.http.get<FilePath>(`http://localhost:3000/api/courses/export`);
+  exportCourses(category: string): Observable<FilePath> {
+    return this.http.get<FilePath>(
+      `http://localhost:3000/api/courses/export?category=${category}`
+    );
   }
 }

@@ -1,5 +1,7 @@
 const database = require("./database");
-const fileMgmt = require('../shared/fileMgmt');
+const path = require('path');
+const fs = require('fs');
+//const fileMgmt = require('../shared/fileMgmt');
 
 module.exports = {
     getCoursesDetails: async function (req, res, next) {
@@ -67,7 +69,7 @@ module.exports = {
 
     getFilteredCourses: async function (req, res, next) {
         const param = req.query;
-        console.log(param)
+        //console.log(param)
         const sql =
             "SELECT * FROM courses WHERE category=?;";
 
@@ -83,9 +85,37 @@ module.exports = {
         }
     },
 
-    exportCourses: function (req, res, next) {
-        const sql = "SELECT * FROM courses;";
-        res.set('Access-Control-Allow-Origin', '*');
-        fileMgmt.exportToFile(res, sql, 'courses');
+    exportCourses: async function (req, res, next) {
+        const param = req.query;
+
+        const sql = "SELECT * FROM courses ;";
+
+        // const sql2 = "SELECT * FROM courses WHERE category=?;";
+
+
+        try {
+            const result = await database.query(sql);
+
+            // const result = await database.query(sql2, [param.category]);
+
+            res.set('Access-Control-Allow-Origin', '*');
+            const now = new Date().getTime(); // moment.js
+            const filePath = path.join(__dirname, '../client/exports', `courses-${now}.txt`);
+            console.log("filePath:" + filePath)
+            // c:\\projects\royal-crm\files\customers.txt
+            const stream = fs.createWriteStream(filePath);
+
+            stream.on('open', function () {
+                stream.write(JSON.stringify(result[0]));
+                stream.end();
+            });
+
+            stream.on('finish', function () {
+                res.send(`Success. File at: ${filePath}`);
+            });
+        } catch (err) {
+            throw err;
+        }
+
     },
 };

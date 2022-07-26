@@ -91,7 +91,7 @@ export class CoursesComponent implements OnInit, AfterViewInit {
     }
   }
   exportCoursesData() {
-    this.apiService.exportCourses().subscribe({
+    this.apiService.exportCourses(this.selectedCategory).subscribe({
       next: (data: FilePath) => {
         //console.log(`${environment.serverUrl}/${data.name}`);
         window.open(`http://localhost:4500/eports`);
