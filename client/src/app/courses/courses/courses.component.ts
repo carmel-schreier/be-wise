@@ -91,15 +91,27 @@ export class CoursesComponent implements OnInit, AfterViewInit {
     }
   }
   exportCoursesData() {
-    this.apiService.exportCourses(this.selectedCategory).subscribe({
-      next: (data: FilePath) => {
-        //console.log(`${environment.serverUrl}/${data.name}`);
-        window.open(`http://localhost:4500/eports`);
-      },
-      error: (err) => {
-        console.error(err);
-      },
-    });
+    if (this.selectedCategory == `All`) {
+      this.apiService.exportCourses().subscribe({
+        next: (data: FilePath) => {
+          //console.log(`${environment.serverUrl}/${data.name}`);
+          window.open(`http://localhost:4500/eports`);
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    } else {
+      this.apiService.exportFilteredCourses(this.selectedCategory).subscribe({
+        next: (data: FilePath) => {
+          //console.log(`${environment.serverUrl}/${data.name}`);
+          window.open(`http://localhost:4500/eports`);
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    }
   }
 
   sortCourses(column: sortColumn) {

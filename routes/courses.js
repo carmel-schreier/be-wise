@@ -8,6 +8,7 @@ router.get('/courses/filtered', fm.getFilteredCourses);
 router.get('/courses/categories', fm.getCategories);
 
 router.get('/courses/export', fm.exportCourses);
+router.get('/courses/export/filtered', fm.exportFilteredCourses);
 
 
 module.exports = router;

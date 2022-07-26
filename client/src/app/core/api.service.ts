@@ -45,10 +45,12 @@ export class ApiService {
       `http://localhost:3000/api/courses/sorted?column=${column}&sort=${direction}`
     );
   }
-
-  exportCourses(category: string): Observable<FilePath> {
+  exportCourses(): Observable<FilePath> {
+    return this.http.get<FilePath>(`http://localhost:3000/api/courses/export`);
+  }
+  exportFilteredCourses(category: string): Observable<FilePath> {
     return this.http.get<FilePath>(
-      `http://localhost:3000/api/courses/export?category=${category}`
+      `http://localhost:3000/api/courses/export/filtered?category=${category}`
     );
   }
 }
