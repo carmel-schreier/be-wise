@@ -15,21 +15,20 @@ import {
 })
 export class CoursesComponent implements OnInit, AfterViewInit {
   courses!: Array<Courses>;
-  //showDetails = false;
   theCourse!: Courses;
-  categories!: Array<Categories>;
   selectedCategory = 'All';
   tableSort!: CoursesSort;
   courseIndex!: number;
   active = true;
   expandIcon = `bi-plus-square`;
   theButton!: any;
+  categories = ['All'];
+  show = true;
 
   constructor(private apiService: ApiService, private renderer: Renderer2) {}
 
   ngOnInit(): void {
     this.getAllCourses();
-    this.getCategoriesList();
     this.tableSort = {
       column: 'name',
       dirAsc: true,
@@ -42,59 +41,36 @@ export class CoursesComponent implements OnInit, AfterViewInit {
     this.apiService.getCoursesList().subscribe({
       next: (data: Array<Courses>) => {
         this.courses = data;
-        console.log(data);
+        this.getCategories(this.courses);
       },
       error: (err) => {
         console.error(err);
       },
-      complete() {
-        console.log('complete');
-      },
+      complete() {},
     });
   }
 
-  getCoursesByCategory(category: string) {
-    this.apiService.getFilteredCourses(category).subscribe({
-      next: (data: Array<Courses>) => {
-        this.courses = data;
-        console.log(data);
-      },
-      error: (err) => {
-        console.error(err);
-      },
-      complete() {
-        console.log('complete');
-      },
-    });
-  }
-
-  getCategoriesList() {
-    this.apiService.getCategories().subscribe({
-      next: (data: Array<Categories>) => {
-        this.categories = data;
-        console.log(data);
-      },
-      error: (err) => {
-        console.error(err);
-      },
-      complete() {
-        console.log('complete');
-      },
-    });
+  getCategories(courses: Array<Courses>) {
+    for (let i = 0; i < courses.length; i++) {
+      let flag = false;
+      for (let j = 0; j < this.categories.length; j++) {
+        if (this.courses[i].category == this.categories[j]) flag = true;
+      }
+      if (!flag) {
+        this.categories.push(this.courses[i].category);
+      }
+    }
   }
 
   filterByCategory() {
-    if (this.selectedCategory != 'All') {
-      this.getCoursesByCategory(this.selectedCategory);
-    } else {
-      this.getAllCourses();
-    }
+    this.show = this.selectedCategory == `All` ? true : false;
+    if (this.active === false) this.closeCourseDetails(this.courseIndex);
   }
+
   exportCoursesData() {
     if (this.selectedCategory == `All`) {
       this.apiService.exportCourses().subscribe({
         next: (data: FilePath) => {
-          //console.log(`${environment.serverUrl}/${data.name}`);
           window.open(`http://localhost:4500/eports`);
         },
         error: (err) => {
@@ -104,7 +80,6 @@ export class CoursesComponent implements OnInit, AfterViewInit {
     } else {
       this.apiService.exportFilteredCourses(this.selectedCategory).subscribe({
         next: (data: FilePath) => {
-          //console.log(`${environment.serverUrl}/${data.name}`);
           window.open(`http://localhost:4500/eports`);
         },
         error: (err) => {
@@ -115,7 +90,6 @@ export class CoursesComponent implements OnInit, AfterViewInit {
   }
 
   sortCourses(column: sortColumn) {
-    console.log(column);
     if (this.tableSort.column === column) {
       this.tableSort.dirAsc = !this.tableSort.dirAsc;
     } else {
@@ -141,14 +115,11 @@ export class CoursesComponent implements OnInit, AfterViewInit {
   }
 
   showCourseDetails(i: number) {
-    console.log('i was clicked' + `${i}`);
     this.theCourse = this.courses[i];
-    console.log(this.theCourse);
     this.courseIndex = i;
     this.active = false;
-    console.log(this.theButton);
     let code = this.courses[i].code;
-    this.theButton = this.renderer.selectRootElement(`.${code}`);
+    this.theButton = this.renderer.selectRootElement(`#A${code}`);
     this.renderer.removeClass(this.theButton, `bi-plus-square`);
     this.renderer.addClass(this.theButton, `bi-dash-square`);
   }

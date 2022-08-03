@@ -2,14 +2,12 @@
   <label class="col-sm-2 col-form-label" for="">Filter by category:</label>
   <div class="col-sm-3">
     <select (change)="filterByCategory()" [(ngModel)]="selectedCategory" class="form-select">
-      <option>All
-      </option>
-      <option *ngFor="let category of categories" [value]="category.category">{{category.category}}
+      <option *ngFor="let category of categories" [value]="category">{{category}}
       </option>
     </select>
   </div>
   <div class="col-sm-2">
-    <button (click)="exportCoursesData()" class="ms-3 "><i class="bi-download"></i>Export</button>
+    <button (click)="exportCoursesData()" class="btn-primary ms-3"><i class="bi-download me-1"></i>Export</button>
   </div>
 </div>
 
@@ -31,10 +29,10 @@
     </tr>
   </thead>
   <tbody *ngFor="let course of courses;let i=index;">
-    <tr>
+    <tr *ngIf="course.category==selectedCategory||show">
       <td>({{course.code}}) {{course.name}}</td>
-      <td>{{course.price}} <button (click)="active?showCourseDetails(i):closeCourseDetails(i)"
-          class="btn btn-default {{course.code}}"><i [ngClass]="expandIcon"></i></button></td>
+      <td>{{course.price}} <button (click)="active?showCourseDetails(i):closeCourseDetails(i)" class="btn btn-default"
+          id="A{{course.code}}"><i [ngClass]="expandIcon"></i></button></td>
     </tr>
     <tr>
       <app-course-info *ngIf="courseIndex==i" [theCourse]="theCourse"></app-course-info>

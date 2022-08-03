@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Courses } from 'src/app/shared/types';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-course-info',
@@ -10,9 +11,7 @@ export class CourseInfoComponent implements OnInit {
   @Input()
   theCourse!: Courses;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
-    console.log('in course-info' + this.theCourse);
-  }
+  ngOnInit(): void {}
 }

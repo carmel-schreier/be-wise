@@ -1,10 +1,16 @@
 <tr>
   <td>
-    <p class="card-text">Starting date:{{theCourse.open_date}}</p>
+    <p class="card-text">Starting date: {{theCourse.open_date|date}}</p>
     <p class="card-text">Number of lessons: {{theCourse.lessons_numb}}</p>
     <p class="card-text">Category: {{theCourse.category}}</p>
     <p class="card-text">Course description: {{theCourse.description}}</p>
     <p class="card-text">Lecturer: {{theCourse.lecturer}}</p>
-    <a href="#" class="card-link">Card link</a>
+    <a routerLink="../lecturers-component/??" routerLinkActive="active" ariaCurrentWhenActive="page"
+      class="card-link">See
+      more courses by this lecturer</a>
+    <div>
+      <a routerLink="./register-component" routerLinkActive="active" ariaCurrentWhenActive="page"
+        class="btn btn-warning ms-5 my-3" style="text-align:center;">Register Now</a>
+    </div>
   </td>
 </tr>
