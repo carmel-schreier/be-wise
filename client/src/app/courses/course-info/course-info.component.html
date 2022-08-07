@@ -5,8 +5,8 @@
     <p class="card-text">Category: {{theCourse.category}}</p>
     <p class="card-text">Course description: {{theCourse.description}}</p>
     <p class="card-text">Lecturer: {{theCourse.lecturer}}</p>
-    <a routerLink="../lecturers-component/??" routerLinkActive="active" ariaCurrentWhenActive="page"
-      class="card-link">See
+    <a (click)="getList(theCourse.lecturer)" routerLink="lecturer-list-component" routerLinkActive="active"
+      ariaCurrentWhenActive="page" class="card-link">See
       more courses by this lecturer</a>
     <div>
       <a routerLink="./register-component" routerLinkActive="active" ariaCurrentWhenActive="page"
@@ -14,3 +14,8 @@
     </div>
   </td>
 </tr>
+
+
+<!-- <a (click)="getList(theCourse.lecturer)" routerLink="../lecturers-component/??" routerLinkActive="active" -->
+<!-- ariaCurrentWhenActive="page" class="card-link">See -->
+<!-- more courses by this lecturer</a> -->

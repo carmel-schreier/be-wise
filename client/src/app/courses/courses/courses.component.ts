@@ -6,6 +6,7 @@ import {
   FilePath,
   sortColumn,
   CoursesSort,
+  lecturerCourses,
 } from 'src/app/shared/types';
 
 @Component({
@@ -15,6 +16,8 @@ import {
 })
 export class CoursesComponent implements OnInit, AfterViewInit {
   courses!: Array<Courses>;
+  lecturerCourses!: Array<Courses>;
+  theCourses!: lecturerCourses;
   theCourse!: Courses;
   selectedCategory = 'All';
   tableSort!: CoursesSort;
@@ -24,6 +27,7 @@ export class CoursesComponent implements OnInit, AfterViewInit {
   theButton!: any;
   categories = ['All'];
   show = true;
+  name = ``;
 
   constructor(private apiService: ApiService, private renderer: Renderer2) {}
 
@@ -42,6 +46,7 @@ export class CoursesComponent implements OnInit, AfterViewInit {
       next: (data: Array<Courses>) => {
         this.courses = data;
         this.getCategories(this.courses);
+        return this.courses;
       },
       error: (err) => {
         console.error(err);
@@ -116,7 +121,14 @@ export class CoursesComponent implements OnInit, AfterViewInit {
 
   showCourseDetails(i: number) {
     this.theCourse = this.courses[i];
+    this.name = this.theCourse.lecturer;
     this.courseIndex = i;
+    this.lecturerCourses = this.courses.filter((x) => x.lecturer == this.name);
+    for (let i = 0; i < this.lecturerCourses.length; i++) {
+      this.theCourses.push(this.lecturerCourses[i].name);
+    }
+    console.log(this.lecturerCourses);
+    console.log(this.theCourses);
     this.active = false;
     let code = this.courses[i].code;
     this.theButton = this.renderer.selectRootElement(`#A${code}`);
