@@ -31,12 +31,6 @@ export class ApiService {
     console.log(result);
     return result;
   }
-
-  getFilteredCourses(category: string): Observable<Array<Courses>> {
-    return this.http.get<Array<Courses>>(
-      `http://localhost:3000/api/courses/filtered?category=${category}`
-    );
-  }
   getSortedCourses(
     column: string,
     direction: string

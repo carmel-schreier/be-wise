@@ -1,5 +1,4 @@
-To run:
+To run server:
 SET DEBUG=be-wise:*& npm start
 
-Go to:
-http://localhost:4200/lecturers-component
+

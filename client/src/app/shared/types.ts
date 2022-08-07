@@ -18,6 +18,8 @@ export interface Courses {
   lecturer: string;
 }
 
+export type lecturerCourses = Array<string>;
+
 export interface Categories {
   category: string;
 }
