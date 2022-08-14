@@ -4,8 +4,6 @@ export interface Lecturer {
   phone: string;
   email: string;
   starting_date: Date;
-  country_code: string;
-  country_name: string;
 }
 export interface Courses {
   code: string;

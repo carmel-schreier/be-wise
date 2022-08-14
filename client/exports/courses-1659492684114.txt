@@ -1,0 +1,1 @@
+[{"code":"UY63","name":"Embroidery","description":"Best embroidery coures","price":"3000","open_date":"2022-07-25T21:00:00.000Z","lessons_numb":50,"category":"Arts and Crafts","lecturer":"Carmel Schreier"}]
